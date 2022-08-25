@@ -1,3 +1,4 @@
+mod input_reader;
 mod day_01_sonar_sweep;
 mod day_02_dive;
 
