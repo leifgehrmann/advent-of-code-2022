@@ -1,0 +1,18 @@
+name: Day-02-Dive
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '**day-02**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        run: cargo build --verbose
+      - name: Run tests
+        run: cargo run -- 02

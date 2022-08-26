@@ -5,6 +5,7 @@ My attempts at the [Advent of Code 2022](https://adventofcode.com/2022) challeng
 ## Solutions
 
 * [![Day-01-???](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-01.yml/badge.svg?branch=main)](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-01.yml?query=branch%3Amain)
+* [![Day-02-???](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-02.yml/badge.svg?branch=main)](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-02.yml?query=branch%3Amain)
 
 ## Attribution
 
