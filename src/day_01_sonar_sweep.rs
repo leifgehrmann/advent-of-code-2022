@@ -1,12 +1,6 @@
 use crate::input_reader;
 
-fn part1(input: String) {
-    // Parse the depths.
-    let lines: Vec<&str> = input.split('\n').collect();
-    let depths: Vec<i32> = lines.iter().map(|&val| {
-        return val.parse::<i32>().unwrap();
-    }).collect();
-
+fn part1(depths: Vec<i32>) {
     // Count depths that increase.
     let mut count = 0;
     for i in 1..depths.len() {
@@ -18,13 +12,7 @@ fn part1(input: String) {
     println!("Part 1: {}", count);
 }
 
-fn part2(input: String) {
-    // Parse the depths.
-    let lines: Vec<&str> = input.split('\n').collect();
-    let depths: Vec<i32> = lines.iter().map(|&val| {
-        return val.parse::<i32>().unwrap();
-    }).collect();
-
+fn part2(depths: Vec<i32>) {
     // Compute the sum of depths in a sliding window of 3.
     let mut depth_sums: Vec<i32> = Vec::new();
     let window = 3;
@@ -49,6 +37,13 @@ fn part2(input: String) {
 
 pub fn run() {
     let input = input_reader::read_file_in_cwd("src/day_01_input.txt");
-    part1(input.clone());
-    part2(input.clone());
+
+    // Parse the depths.
+    let lines: Vec<&str> = input.split('\n').collect();
+    let depths: Vec<i32> = lines.iter().map(|&val| {
+        return val.parse::<i32>().unwrap();
+    }).collect();
+
+    part1(depths.clone());
+    part2(depths.clone());
 }
