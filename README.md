@@ -17,6 +17,13 @@ For example, to build and execute the puzzle for Day 2, run:
 cargo run -- 02
 ```
 
+To build optimized artifacts, run:
+
+```
+cargo build –-release --verbose
+./target/release/aoc 02
+```
+
 ## Attribution
 
 * Hero background image by [Anna Peipina](https://unsplash.com/photos/hLx3QC71kzk) on [Unsplash](https://unsplash.com/).

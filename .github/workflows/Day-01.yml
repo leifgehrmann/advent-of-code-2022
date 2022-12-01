@@ -13,6 +13,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build
-        run: cargo build --verbose
-      - name: Run tests
-        run: time cargo run -- 01
+        run: cargo build –-release --verbose
+      - name: Run
+        run: time target/release/aoc 01
