@@ -1,10 +1,10 @@
-name: Day-02-Dive
+name: Day-02-???
 
 on:
   workflow_dispatch:
   push:
     paths:
-      - '**day-02**'
+      - 'src/day_02*'
 
 jobs:
   build:

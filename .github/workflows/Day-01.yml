@@ -1,10 +1,10 @@
-name: Day-01-Sonar-Sweeps
+name: Day-01-Calorie-Counting
 
 on:
   workflow_dispatch:
   push:
     paths:
-      - '**day-01**'
+      - 'src/day_01**'
 
 jobs:
   build:
