@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - 'src/day_02*'
+      - '**02*'
 
 jobs:
   build:
@@ -15,4 +15,4 @@ jobs:
       - name: Build
         run: cargo build --verbose
       - name: Run tests
-        run: cargo run -- 02
+        run: time cargo run -- 02
