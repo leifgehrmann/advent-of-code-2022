@@ -12,6 +12,7 @@ fn part1(elfs_calories: Vec<Vec<i32>>) {
             max_total_calories = total_calories_for_elf;
         }
     }
+    println!("Part 1: {}", max_total_calories);
 }
 
 pub fn run() {
