@@ -28,13 +28,14 @@ fn part2(elfs_calories: &Vec<Vec<i32>>) {
     // input is billions of entries, but who's trying to be optimal here?)
     elfs_total.sort();
     elfs_total.reverse();
+    // Print sum of top 3 elves.
     println!("Part 2: {}", (elfs_total[0] + elfs_total[1] + elfs_total[2]));
 }
 
 pub fn run() {
     let input = input_reader::read_file_in_cwd("src/day_01_input.txt");
 
-    // Parse the depths.
+    // Parse the calorie counts.
     let elfs_calories_str: Vec<&str> = input.split("\n\n").collect();
     let elfs_calories: Vec<Vec<i32>> = elfs_calories_str.iter().map(|&val| {
         let elf_calories_str: Vec<&str> = val.split("\n").collect();
