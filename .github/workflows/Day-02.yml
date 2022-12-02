@@ -1,4 +1,4 @@
-name: Day-02-???
+name: Day-02-Rock-Paper-Scissors
 
 on:
   workflow_dispatch:
@@ -15,4 +15,4 @@ jobs:
       - name: Build
         run: cargo build --release --verbose
       - name: Run
-        run: time target/release/aoc 01
+        run: time target/release/aoc 02
