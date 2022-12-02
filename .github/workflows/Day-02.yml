@@ -1,4 +1,4 @@
-name: Day-02-???
+name: Day-02-Rock-Paper-Scissors
 
 on:
   workflow_dispatch:
