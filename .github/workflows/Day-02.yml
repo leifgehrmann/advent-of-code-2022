@@ -15,4 +15,4 @@ jobs:
       - name: Build
         run: cargo build --release --verbose
       - name: Run
-        run: time target/release/aoc 01
+        run: time target/release/aoc 02
