@@ -6,6 +6,7 @@ My attempts at the [Advent of Code 2022](https://adventofcode.com/2022) challeng
 
 * [![Day-01-Calorie-Counting](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-01.yml/badge.svg?branch=main)](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-01.yml?query=branch%3Amain)
 * [![Day-02-Rock-Paper-Scissors](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-02.yml/badge.svg?branch=main)](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-02.yml?query=branch%3Amain)
+* [![Day-03-Rucksack-Reorganization](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-03.yml/badge.svg?branch=main)](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-03.yml?query=branch%3Amain)
 
 ## How to run
 
