@@ -7,7 +7,7 @@ struct Procedure {
     to: usize
 }
 
-fn part1(stacks: &mut Vec<Vec<char>>, procedures: Vec<Procedure>) {
+fn part1(stacks: &mut Vec<Vec<char>>, procedures: &Vec<Procedure>) {
     for procedure in procedures {
         for _ in 0..procedure.crates {
             let c = stacks[procedure.from].pop().unwrap();
@@ -19,6 +19,21 @@ fn part1(stacks: &mut Vec<Vec<char>>, procedures: Vec<Procedure>) {
         solution.push(*stack.last().unwrap());
     }
     println!("Part 1: {}", solution);
+}
+
+fn part2(stacks: &mut Vec<Vec<char>>, procedures: &Vec<Procedure>) {
+    for procedure in procedures {
+        let mut c_group: Vec<char> = vec![];
+        for _ in 0..procedure.crates {
+            c_group.insert(0, stacks[procedure.from].pop().unwrap());
+        }
+        stacks[procedure.to].append(&mut c_group);
+    }
+    let mut solution = "".to_owned();
+    for stack in stacks {
+        solution.push(*stack.last().unwrap());
+    }
+    println!("Part 2: {}", solution);
 }
 
 pub fn run() {
@@ -59,5 +74,6 @@ pub fn run() {
         return Procedure { crates, from, to }
     }).collect();
 
-    part1(&mut stacks, procedures);
+    part1(&mut stacks.clone(), &procedures);
+    part2(&mut stacks, &procedures);
 }
