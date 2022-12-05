@@ -1,4 +1,4 @@
-name: Day-01-Calorie-Counting
+name: Day-01
 
 on:
   workflow_dispatch:

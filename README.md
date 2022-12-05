@@ -1,14 +1,20 @@
 ![advent-of-code-2022](./advent-of-code-2022-hero.png)
 
-My attempts at the [Advent of Code 2022](https://adventofcode.com/2022) challenges.
+My attempts at the [Advent of Code 2022](https://adventofcode.com/2022) challenges in [Rust](https://www.rust-lang.org).
+
+This is primarily a learning experience, and the code may not be following best practices.
 
 ## Solutions
 
-* [![Day-01-Calorie-Counting](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-01.yml/badge.svg?branch=main)](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-01.yml?query=branch%3Amain)
-* [![Day-02-Rock-Paper-Scissors](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-02.yml/badge.svg?branch=main)](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-02.yml?query=branch%3Amain)
-* [![Day-03-Rucksack-Reorganization](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-03.yml/badge.svg?branch=main)](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-03.yml?query=branch%3Amain)
-* [![Day-04-Camp-Cleanup](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-04.yml/badge.svg?branch=main)](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-04.yml?query=branch%3Amain)
-* [![Day-05-Supply-Stacks](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-05.yml/badge.svg?branch=main)](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-05.yml?query=branch%3Amain)
+| Day | Name                      | Code                           | Input Data                         | Time †     | GitHub Action Output |
+|-----|---------------------------|--------------------------------|------------------------------------|------------|--------|
+| 1   | Calorie Counting          | [src/day_01.rs](src/day_01.rs) | [src/day_01.data](src/day_01.data) | `0m0.002s` | [![Day-01](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-01.yml/badge.svg?branch=main)](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-01.yml?query=branch%3Amain)
+| 2   | Rock Paper Scissors       | [src/day_02.rs](src/day_02.rs) | [src/day_02.data](src/day_02.data) | `0m0.002s` | [![Day-02](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-02.yml/badge.svg?branch=main)](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-02.yml?query=branch%3Amain)
+| 3   | Rucksack Reorganization   | [src/day_03.rs](src/day_03.rs) | [src/day_03.data](src/day_03.data) | `0m0.002s` | [![Day-03](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-03.yml/badge.svg?branch=main)](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-03.yml?query=branch%3Amain)
+| 4   | Camp Cleanup              | [src/day_04.rs](src/day_04.rs) | [src/day_04.data](src/day_04.data) | `0m0.001s` | [![Day-04](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-04.yml/badge.svg?branch=main)](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-04.yml?query=branch%3Amain)
+| 5   | Supply Stacks             | [src/day_05.rs](src/day_05.rs) | [src/day_05.data](src/day_05.data) | `0m0.002s` | [![Day-05](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-05.yml/badge.svg?branch=main)](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-05.yml?query=branch%3Amain)
+
+† _The measured execution time in GitHub Actions_
 
 ## How to run
 

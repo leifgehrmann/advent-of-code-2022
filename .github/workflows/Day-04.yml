@@ -1,4 +1,4 @@
-name: Day-04-Camp-Cleanup
+name: Day-04
 
 on:
   workflow_dispatch:

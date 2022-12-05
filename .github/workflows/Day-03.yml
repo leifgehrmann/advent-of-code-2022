@@ -1,4 +1,4 @@
-name: Day-03-Rucksack-Reorganization
+name: Day-03
 
 on:
   workflow_dispatch:
