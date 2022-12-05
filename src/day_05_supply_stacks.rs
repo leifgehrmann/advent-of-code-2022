@@ -3,12 +3,22 @@ use regex::Regex;
 
 struct Procedure {
     crates: i32,
-    from: i32,
-    to: i32
+    from: usize,
+    to: usize
 }
 
-fn part1(procedures: Vec<Procedure>) {
-    
+fn part1(stacks: &mut Vec<Vec<char>>, procedures: Vec<Procedure>) {
+    for procedure in procedures {
+        for _ in 0..procedure.crates {
+            let c = stacks[procedure.from].pop().unwrap();
+            stacks[procedure.to].push(c);
+        }
+    }
+    let mut solution = "".to_owned();
+    for stack in stacks {
+        solution.push(*stack.last().unwrap());
+    }
+    println!("Part 1: {}", solution);
 }
 
 pub fn run() {
@@ -22,7 +32,6 @@ pub fn run() {
     let stacks_height = arrangement_str.len() - 1;
     // Use the last line to count how many stacks there are, and create a list.
     let stacks_count = (arrangement_str.last().unwrap().len() + 1) / 4;
-    println!("Part 1: {}", stacks_count);
     let mut stacks: Vec<Vec<char>> = vec![vec![]; stacks_count];
     let stack_regex = Regex::new(r"\[[A-Z]\]|    ").unwrap();
     let crate_regex = Regex::new(r"[A-Z]").unwrap();
@@ -36,20 +45,19 @@ pub fn run() {
             }
             let container = &crate_regex.captures(&capture[0]).unwrap()[0];
             stacks[stack_index].push(container.chars().next().unwrap());
-            println!("Part 1: {:?}", stacks[stack_index]);
             stack_index += 1;
         }
     }
 
     // Parse procedures.
-    let procedures_str: Vec<&str> = input_str_pieces[0].split("\n").collect();
+    let procedures_str: Vec<&str> = input_str_pieces[1].split("\n").collect();
     let procedures: Vec<Procedure> = procedures_str.iter().map(|&val| {
         let split_procedure_str: Vec<&str> = val.split(" ").collect();
         let crates = split_procedure_str[1].parse::<i32>().unwrap();
-        let from = split_procedure_str[3].parse::<i32>().unwrap();
-        let to = split_procedure_str[5].parse::<i32>().unwrap();
+        let from = split_procedure_str[3].parse::<usize>().unwrap() - 1;
+        let to = split_procedure_str[5].parse::<usize>().unwrap() - 1;
         return Procedure { crates, from, to }
     }).collect();
 
-    part1(procedures);
+    part1(&mut stacks, procedures);
 }
