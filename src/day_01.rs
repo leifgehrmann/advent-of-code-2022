@@ -33,7 +33,7 @@ fn part2(elfs_calories: &Vec<Vec<i32>>) {
 }
 
 pub fn run() {
-    let input = input_reader::read_file_in_cwd("src/day_01_input.txt");
+    let input = input_reader::read_file_in_cwd("src/day_01.data");
 
     // Parse the calorie counts.
     let elfs_calories_str: Vec<&str> = input.split("\n\n").collect();

@@ -75,7 +75,7 @@ fn part2(strats: Vec<ExplainedStrat>) {
 }
 
 pub fn run() {
-    let input = input_reader::read_file_in_cwd("src/day_02_input.txt");
+    let input = input_reader::read_file_in_cwd("src/day_02.data");
 
     // Parse the instructions.
     let lines: Vec<&str> = input.split('\n').collect();

@@ -32,7 +32,7 @@ fn part2(section_assignments: &Vec<SectionAssignment>) {
 }
 
 pub fn run() {
-    let input = input_reader::read_file_in_cwd("src/day_04_input.txt");
+    let input = input_reader::read_file_in_cwd("src/day_04.data");
 
     // Parse the input into pairs of ranges.
     let lines: Vec<&str> = input.split('\n').collect();

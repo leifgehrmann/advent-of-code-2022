@@ -45,7 +45,7 @@ fn part2(rucksacks: &Vec<&str>) {
 }
 
 pub fn run() {
-    let input = input_reader::read_file_in_cwd("src/day_03_input.txt");
+    let input = input_reader::read_file_in_cwd("src/day_03.data");
 
     let rucksacks: Vec<&str> = input.split('\n').collect();
 
