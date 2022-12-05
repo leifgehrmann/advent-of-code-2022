@@ -8,6 +8,7 @@ My attempts at the [Advent of Code 2022](https://adventofcode.com/2022) challeng
 * [![Day-02-Rock-Paper-Scissors](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-02.yml/badge.svg?branch=main)](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-02.yml?query=branch%3Amain)
 * [![Day-03-Rucksack-Reorganization](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-03.yml/badge.svg?branch=main)](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-03.yml?query=branch%3Amain)
 * [![Day-04-Camp-Cleanup](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-04.yml/badge.svg?branch=main)](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-04.yml?query=branch%3Amain)
+* [![Day-05-Supply-Stacks](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-05.yml/badge.svg?branch=main)](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-05.yml?query=branch%3Amain)
 
 ## How to run
 
