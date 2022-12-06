@@ -13,6 +13,7 @@ This is primarily a learning experience, and the code may not be following best 
 | 3   | Rucksack Reorganization   | [src/day_03.rs](src/day_03.rs) | [src/day_03.data](src/day_03.data) | `0m0.002s` | [![Day-03](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-03.yml/badge.svg?branch=main)](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-03.yml?query=branch%3Amain)
 | 4   | Camp Cleanup              | [src/day_04.rs](src/day_04.rs) | [src/day_04.data](src/day_04.data) | `0m0.001s` | [![Day-04](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-04.yml/badge.svg?branch=main)](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-04.yml?query=branch%3Amain)
 | 5   | Supply Stacks             | [src/day_05.rs](src/day_05.rs) | [src/day_05.data](src/day_05.data) | `0m0.002s` | [![Day-05](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-05.yml/badge.svg?branch=main)](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-05.yml?query=branch%3Amain)
+| 6   | Tuning Trouble            | [src/day_06.rs](src/day_06.rs) | [src/day_06.data](src/day_06.data) | `0m0.002s` | [![Day-06](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-06.yml/badge.svg?branch=main)](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-06.yml?query=branch%3Amain)
 
 † _The measured execution time in GitHub Actions_
 
