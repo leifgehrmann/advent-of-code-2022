@@ -1,0 +1,18 @@
+name: Day-08
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '**08*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        run: cargo build --release --verbose
+      - name: Run
+        run: time target/release/aoc 08
