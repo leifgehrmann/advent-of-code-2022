@@ -15,7 +15,7 @@ This is primarily a learning experience, and the code may not be following best 
 | 5   | Supply Stacks             | [src/day_05.rs](src/day_05.rs) | [src/day_05.data](src/day_05.data) | `0m0.002s` | [![Day-05](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-05.yml/badge.svg?branch=main)](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-05.yml?query=branch%3Amain)
 | 6   | Tuning Trouble            | [src/day_06.rs](src/day_06.rs) | [src/day_06.data](src/day_06.data) | `0m0.002s` | [![Day-06](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-06.yml/badge.svg?branch=main)](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-06.yml?query=branch%3Amain)
 | 7   | No Space Left On Device   |  |  |  | 
-| 8   |  | [src/day_08.rs](src/day_08.rs) | [src/day_08.data](src/day_08.data) |  | [![Day-08](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-08.yml/badge.svg?branch=main)](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-08.yml?query=branch%3Amain)
+| 8   | Treetop Tree House        | [src/day_08.rs](src/day_08.rs) | [src/day_08.data](src/day_08.data) | `0m0.002s` | [![Day-08](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-08.yml/badge.svg?branch=main)](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-08.yml?query=branch%3Amain)
 
 † _The measured execution time in GitHub Actions_
 
