@@ -3,6 +3,12 @@ use crate::input_reader;
 fn part1(map: Vec<Vec<u32>>) {
     let h = map.len(); // height
     let w = map[0].len(); // width
+
+    // ℹ️ Below was my first attempt, which failed horrifically. The idea was
+    // to map out from each viewpoint what the highest tree was. This solution
+    // had trouble with trees that were the same height. Gave up because I
+    // wasted so much time on it...
+
     // let mut map_down = vec![vec![0; w]; h];
     // let mut map_up = vec![vec![0; w]; h];
     // let mut map_to_right = vec![vec![0; w]; h];
@@ -56,6 +62,7 @@ fn part1(map: Vec<Vec<u32>>) {
     //     }
     // }
 
+    // Print statements to debug the code...
     // let pos_y = 2;
     // let pos_x = 2;
     // // println!("Part 1: {}", map[pos_y][pos_x]);
@@ -76,8 +83,9 @@ fn part1(map: Vec<Vec<u32>>) {
     //     }
     // }
     // println!("Part 1: {}", count);
-    // println!("Part 1: {}", map[0].len());
 
+    // ℹ️ Second attempt, using a sub-optimal approach of analysing each tree
+    // individually.
     let mut count = 0;
     for y in 0..h {
         for x in 0..w {
@@ -119,6 +127,51 @@ fn part1(map: Vec<Vec<u32>>) {
     println!("Part 1: {}", count);
 }
 
+fn part2(map: Vec<Vec<u32>>) {
+    let h = map.len(); // height
+    let w = map[0].len(); // width
+    let mut scenic_score_max = 0;
+    for y in 0..h {
+        for x in 0..w {
+            let cell = map[y][x];
+            let mut visible_top = 0;
+            let mut visible_bottom = 0;
+            let mut visible_left = 0;
+            let mut visible_right = 0;
+            for dx in (0..x).rev() {
+                visible_top += 1;
+                if map[y][dx] >= cell {
+                    break
+                }
+            }
+            for dx in x+1..w {
+                visible_bottom += 1;
+                if map[y][dx] >= cell {
+                    break
+                }
+            }
+            for dy in (0..y).rev() {
+                visible_left += 1;
+                if map[dy][x] >= cell {
+                    break
+                }
+            }
+            for dy in y+1..h {
+                visible_right += 1;
+                if map[dy][x] >= cell {
+                    break
+                }
+            }
+            let scenic_score = visible_top * visible_bottom * visible_left * visible_right;
+            if scenic_score > scenic_score_max {
+                scenic_score_max = scenic_score;
+            }
+        }
+    }
+    
+    println!("Part 2: {}", scenic_score_max);
+}
+
 pub fn run() {
     let input = input_reader::read_file_in_cwd("src/day_08.data");
 
@@ -129,5 +182,6 @@ pub fn run() {
         }).collect();
     }).collect();
 
-    part1(map)
+    part1(map.clone());
+    part2(map.clone());
 }
