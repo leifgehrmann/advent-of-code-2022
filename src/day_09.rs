@@ -16,40 +16,13 @@ struct Movement {
     distance: i32
 }
 
-impl Movement {
-    pub fn dx(&self) -> i32 {
-        if self.direction == Direction::R {
-            return self.distance
-        } else if self.direction == Direction::L {
-            return -self.distance
-        }
-        return 0
-    }
-
-    pub fn dy(&self) -> i32 {
-        if self.direction == Direction::U {
-            return self.distance
-        } else if self.direction == Direction::D {
-            return -self.distance
-        }
-        return 0
-    }
-}
-
-
+#[derive(Clone, Copy)]
 struct Position {
     x: i32,
     y: i32,
 }
 
 impl Position {
-    pub fn distance_sq(&self, position: &Position) -> i32 {
-        // Returns the distance squared.
-        let dx = (self.x - position.x).abs();
-        let dy = (self.y - position.y).abs();
-        return dx * dx + dy * dy
-    }
-
     pub fn to_hashable(&self) -> String {
         return format!("{},{}", self.x, self.y);
     }
@@ -69,21 +42,35 @@ impl PartialEq for Position {
 }
 impl Eq for Position {}
 
-fn move_positions(head: &Position, tail: &Position, movement: &Movement) -> (Position, Position) {
-    let new_head = Position { x: head.x + movement.dx(), y: head.y + movement.dy() };
-    let mut new_tail = Position { x: tail.x, y: tail.y };
-    if new_head.distance_sq(tail) > 2 {
-        new_tail = match movement.direction {
-            Direction::U => Position { x: new_head.x, y: new_head.y - 1 },
-            Direction::D => Position { x: new_head.x, y: new_head.y + 1 },
-            Direction::L => Position { x: new_head.x + 1, y: new_head.y },
-            Direction::R => Position { x: new_head.x - 1, y: new_head.y }
-        };
+fn move_head(head: &Position, direction: &Direction) -> Position {
+    match direction {
+        Direction::U => return Position { x: head.x + 1, y: head.y },
+        Direction::D => return Position { x: head.x - 1, y: head.y },
+        Direction::L => return Position { x: head.x, y: head.y - 1 },
+        Direction::R => return Position { x: head.x, y: head.y + 1 }
     }
-    return (new_head, new_tail)
 }
 
-fn part1(movements: Vec<Movement>) {
+fn follow_head(head: &Position, tail: &Position) -> Position {
+    if (head.x - tail.x).abs() >= 2 {
+        // Two steps left or right...
+        if head.x > tail.x {
+            return Position { x: head.x - 1, y: head.y }
+        } else {
+            return Position { x: head.x + 1, y: head.y }
+        }
+    } else if (head.y - tail.y).abs() >= 2 {
+        // Two steps up or down...
+        if head.y > tail.y {
+            return Position { x: head.x, y: head.y - 1 }
+        } else {
+            return Position { x: head.x, y: head.y + 1 }
+        }
+    }
+    return tail.clone()
+}
+
+fn part1(movements: &Vec<Movement>) {
     let mut tail_visits = HashMap::new();
 
     let mut head_position = Position { x: 0, y:0 };
@@ -94,19 +81,36 @@ fn part1(movements: Vec<Movement>) {
     for movement in movements {
         // Simulate each step of each movement instruction.
         for _ in 0..movement.distance {
-            (head_position, tail_position) = move_positions(
-                &head_position,
-                &tail_position,
-                &Movement { direction: movement.direction, distance: 1 }
-            );
-
-            println!("{}", tail_position.to_hashable());
+            head_position = move_head(&head_position, &movement.direction);
+            tail_position = follow_head(&head_position, &tail_position);
 
             tail_visits.insert(tail_position.to_hashable(), 0);
         }
     }
 
     println!("Part 1: {}", tail_visits.len());
+}
+
+fn part2(movements: &Vec<Movement>) {
+    let mut tail_visits = HashMap::new();
+
+    let mut knots: Vec<Position> = vec![Position { x: 0, y: 0 }; 10];
+
+    for movement in movements {
+        // Simulate each step of each movement instruction.
+        for _ in 0..movement.distance {
+            knots[0] = move_head(&knots[0], &movement.direction);
+
+            for k in 1..knots.len() {
+                knots[k] = follow_head(&knots[k-1], &knots[k]);
+            }
+
+            println!("Part 2: {}", knots.last().unwrap().to_hashable());
+            tail_visits.insert(knots.last().unwrap().to_hashable(), 0);
+        }
+    }
+
+    println!("Part 2: {}", tail_visits.len());
 }
 
 pub fn run() {
@@ -129,5 +133,6 @@ pub fn run() {
         }
     }).collect();
 
-    part1(movements)
+    part1(&movements);
+    part2(&movements);
 }
