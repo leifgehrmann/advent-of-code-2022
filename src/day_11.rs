@@ -16,6 +16,7 @@ struct Item {
     base_13: i32,
     base_17: i32,
     base_19: i32,
+    base_23: i32,
 }
 
 impl Item {
@@ -29,6 +30,7 @@ impl Item {
             base_13: val % 13,
             base_17: val % 17,
             base_19: val % 19,
+            base_23: val % 23,
         }
     }
 
@@ -42,6 +44,7 @@ impl Item {
             13 => self.base_13 == 0,
             17 => self.base_17 == 0,
             19 => self.base_19 == 0,
+            23 => self.base_23 == 0,
             _ => false
         }
     }
@@ -56,6 +59,7 @@ impl Item {
             base_13: (self.base_13 + val) % 13,
             base_17: (self.base_17 + val) % 17,
             base_19: (self.base_19 + val) % 19,
+            base_23: (self.base_23 + val) % 23,
         }
     }
 
@@ -69,6 +73,7 @@ impl Item {
             base_13: (self.base_13 * val) % 13,
             base_17: (self.base_17 * val) % 17,
             base_19: (self.base_19 * val) % 19,
+            base_23: (self.base_23 * val) % 23,
         }
     }
 
@@ -82,6 +87,7 @@ impl Item {
             base_13: (self.base_13 * self.base_13) % 13,
             base_17: (self.base_17 * self.base_17) % 17,
             base_19: (self.base_19 * self.base_19) % 19,
+            base_23: (self.base_23 * self.base_23) % 23,
         }
     }
 }
@@ -186,8 +192,7 @@ fn part2(monkeys: &Vec<Monkey>) {
 
     monkey_inspections.sort();
     monkey_inspections.reverse();
-    println!("Part 2: {}", monkey_inspections[0]);
-    println!("Part 2: {}", monkey_inspections[1]);
+    println!("Part 2: {}", monkey_inspections[0] as i64 * monkey_inspections[1] as i64);
 }
 
 pub fn run() {
