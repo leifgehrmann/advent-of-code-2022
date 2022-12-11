@@ -6,6 +6,86 @@ enum Operator {
     Mul
 }
 
+#[derive(Clone, Copy)]
+struct Item {
+    base_2: i32,
+    base_3: i32,
+    base_5: i32,
+    base_7: i32,
+    base_11: i32,
+    base_13: i32,
+    base_17: i32,
+    base_19: i32,
+}
+
+impl Item {
+    fn init(val: i32) -> Item {
+        return Item {
+            base_2: val % 2,
+            base_3: val % 3,
+            base_5: val % 5,
+            base_7: val % 7,
+            base_11: val % 11,
+            base_13: val % 13,
+            base_17: val % 17,
+            base_19: val % 19,
+        }
+    }
+
+    fn is_divisible(self, val: i32) -> bool {
+        match val {
+            2 => self.base_2 == 0,
+            3 => self.base_3 == 0,
+            5 => self.base_5 == 0,
+            7 => self.base_7 == 0,
+            11 => self.base_11 == 0,
+            13 => self.base_13 == 0,
+            17 => self.base_17 == 0,
+            19 => self.base_19 == 0,
+            _ => false
+        }
+    }
+
+    fn add(self, val: i32) -> Item {
+        return Item {
+            base_2: (self.base_2 + val) % 2,
+            base_3: (self.base_3 + val) % 3,
+            base_5: (self.base_5 + val) % 5,
+            base_7: (self.base_7 + val) % 7,
+            base_11: (self.base_11 + val) % 11,
+            base_13: (self.base_13 + val) % 13,
+            base_17: (self.base_17 + val) % 17,
+            base_19: (self.base_19 + val) % 19,
+        }
+    }
+
+    fn mul(self, val: i32) -> Item {
+        return Item {
+            base_2: (self.base_2 * val) % 2,
+            base_3: (self.base_3 * val) % 3,
+            base_5: (self.base_5 * val) % 5,
+            base_7: (self.base_7 * val) % 7,
+            base_11: (self.base_11 * val) % 11,
+            base_13: (self.base_13 * val) % 13,
+            base_17: (self.base_17 * val) % 17,
+            base_19: (self.base_19 * val) % 19,
+        }
+    }
+
+    fn sq(self) -> Item {
+        return Item {
+            base_2: (self.base_2 * self.base_2) % 2,
+            base_3: (self.base_3 * self.base_3) % 3,
+            base_5: (self.base_5 * self.base_5) % 5,
+            base_7: (self.base_7 * self.base_7) % 7,
+            base_11: (self.base_11 * self.base_11) % 11,
+            base_13: (self.base_13 * self.base_13) % 13,
+            base_17: (self.base_17 * self.base_17) % 17,
+            base_19: (self.base_19 * self.base_19) % 19,
+        }
+    }
+}
+
 struct Monkey {
     starting_items: Vec<i32>,
     operator: Operator,
@@ -58,6 +138,58 @@ fn part1(monkeys: &Vec<Monkey>) {
     println!("Part 1: {}", monkey_inspections[0] * monkey_inspections[1]);
 }
 
+fn part2(monkeys: &Vec<Monkey>) {
+    let mut monkey_states: Vec<Vec<Item>> = vec![vec![]; monkeys.len()];
+    let mut monkey_inspections: Vec<i32>  = vec![0; monkeys.len()];
+
+    for m in 0..monkeys.len() {
+        for i in 0..monkeys[m].starting_items.len() {
+            monkey_states[m].push(Item::init(monkeys[m].starting_items[i]))
+        }
+    }
+    
+    for _ in 0..10000 {
+        for m in 0..monkeys.len() {
+            let monkey = &monkeys[m];
+            let monkey_items = monkey_states[m].clone();
+            for item in monkey_items {
+                // Increase monkey inspection.
+                monkey_inspections[m] += 1;
+
+                // Calculate new worry.
+                let mut item = item.clone();
+                if monkey.operand == None {
+                    if monkey.operator == Operator::Add {
+                        item = item.mul(2);
+                    } else {
+                        item = item.sq()
+                    }
+                } else {
+                    if monkey.operator == Operator::Add {
+                        item = item.add(monkey.operand.unwrap());
+                    } else {
+                        item = item.mul(monkey.operand.unwrap());
+                    }
+                }
+
+                // Throw to monkey.
+                if item.is_divisible(monkey.test_divisible) {
+                    monkey_states[monkey.throw_to_monkey_if_true].push(item);
+                } else {
+                    monkey_states[monkey.throw_to_monkey_if_false].push(item);
+                }
+            }
+
+            monkey_states[m] = vec![]
+        }
+    }
+
+    monkey_inspections.sort();
+    monkey_inspections.reverse();
+    println!("Part 2: {}", monkey_inspections[0]);
+    println!("Part 2: {}", monkey_inspections[1]);
+}
+
 pub fn run() {
     let input = input_reader::read_file_in_cwd("src/day_11.data");
 
@@ -96,4 +228,5 @@ pub fn run() {
     }).collect();
 
     part1(&monkeys);
+    part2(&monkeys);
 }
