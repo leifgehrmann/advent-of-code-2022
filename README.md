@@ -18,6 +18,7 @@ This is primarily a learning experience, and the code may not be following best 
 | 8   | Treetop Tree House        | [src/day_08.rs](src/day_08.rs) | [src/day_08.data](src/day_08.data) | `0m0.002s` | [![Day-08](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-08.yml/badge.svg?branch=main)](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-08.yml?query=branch%3Amain)
 | 9   | Rope Bridge               |  |  |  | 
 | 10  | Cathode-Ray Tube          | [src/day_10.rs](src/day_10.rs) | [src/day_10.data](src/day_10.data) | `0m0.003s` | [![Day-10](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-10.yml/badge.svg?branch=main)](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-10.yml?query=branch%3Amain)
+| 11  | Monkey in the Middle      | [src/day_11.rs](src/day_11.rs) | [src/day_11.data](src/day_11.data) |  | [![Day-11](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-11.yml/badge.svg?branch=main)](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-11.yml?query=branch%3Amain)
 
 † _The measured execution time in GitHub Actions_
 
