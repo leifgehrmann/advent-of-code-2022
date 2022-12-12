@@ -2,23 +2,10 @@ use crate::input_reader;
 use std::{collections::HashMap};
 
 struct File {
-    name: String,
     size: usize
 }
 
-fn finished_mapping(
-    dirs: &Vec<Vec<&str>>,
-    dir_size: &HashMap<Vec<&str>, usize>
-) -> bool {
-    for dir in dirs {
-        if !dir_size.contains_key(dir) {
-            return false;
-        }
-    }
-    return true;
-}
-
-fn part1(
+fn part1and2(
     sub_dirs: HashMap<Vec<&str>, Vec<Vec<&str>>>,
     files: HashMap<Vec<&str>, Vec<File>>,
     root: Vec<&str>
@@ -26,7 +13,7 @@ fn part1(
     let mut dir_size: HashMap<Vec<&str>, usize> = HashMap::new();
     let cursor: &mut Vec<&str> = &mut root.clone();
 
-    'map_sub_dir: while !finished_mapping(sub_dirs.get(&root.clone()).unwrap(), &dir_size) {
+    'map_sub_dir: while dir_size.get(&root).is_none() {
 
         let mut sum: usize = 0;
 
@@ -54,13 +41,24 @@ fn part1(
     }
 
     let mut sum: usize = 0;
-    for d in dir_size {
-        if d.1 <= 100000 {
-            sum += d.1;
+    for d in &dir_size {
+        if *d.1 <= 100000 {
+            sum += *d.1;
         }
     }
 
     println!("Part 1: {}", sum);
+
+    let unused_space = 70000000 - *dir_size.get(&root).unwrap();
+    let to_free = 30000000 - unused_space;
+    let mut min: usize = std::usize::MAX;
+    for d in &dir_size {
+        if *d.1 < min && *d.1 >= to_free {
+            min = *d.1;
+        }
+    }   
+    
+    println!("Part 2: {}", min);
 }
 
 pub fn run() {
@@ -113,8 +111,7 @@ pub fn run() {
                         path_clone.push(sub_dir_name);
                         dir_dirs.push(path_clone);
                     } else if let Some(file_size) = item_info[0].parse::<usize>().ok() {
-                        let file_name = item_info[1];
-                        let file = File { size: file_size, name: file_name.to_string() };
+                        let file = File { size: file_size };
                         dir_files.push(file);
                     }
                 }
@@ -125,5 +122,5 @@ pub fn run() {
             _ => { /* Do nothing if command is not recognized */ }
         };
     }
-    part1(dirs, files, vec!["/"]);
+    part1and2(dirs, files, vec!["/"]);
 }
