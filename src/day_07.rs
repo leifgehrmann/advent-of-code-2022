@@ -1,52 +1,74 @@
 use crate::input_reader;
-use std::borrow::BorrowMut;
-use std::collections::HashMap;
-use std::cell::RefCell;
-use std::rc::Rc;
+use std::{collections::HashMap};
 
 struct File {
     name: String,
-    size: i32
+    size: usize
 }
 
-struct Dir {
-    parent: Option<String>,
-    name: String,
-    dirs: Vec<String>,
-    files: Vec<File>
+fn finished_mapping(
+    dirs: &Vec<Vec<&str>>,
+    dir_size: &HashMap<Vec<&str>, usize>
+) -> bool {
+    for dir in dirs {
+        if !dir_size.contains_key(dir) {
+            return false;
+        }
+    }
+    return true;
 }
 
-// impl Hash for Dir {
-//     fn hash<H: Hasher>(&self, state: &mut H) {
-//         self.name.hash(state);
-//     }
-// }
+fn part1(
+    sub_dirs: HashMap<Vec<&str>, Vec<Vec<&str>>>,
+    files: HashMap<Vec<&str>, Vec<File>>,
+    root: Vec<&str>
+) {
+    let mut dir_size: HashMap<Vec<&str>, usize> = HashMap::new();
+    let cursor: &mut Vec<&str> = &mut root.clone();
 
-// impl PartialEq for Dir {
-//     fn eq(&self, other: &Self) -> bool {
-//         self.name == other.name
-//     }
-// }
-// impl Eq for Dir {}
+    'map_sub_dir: while !finished_mapping(sub_dirs.get(&root.clone()).unwrap(), &dir_size) {
 
-impl Dir {
-    pub fn add_file(&mut self, file: File) {
-        self.files.push(file)
+        let mut sum: usize = 0;
+
+        // If there are sub_dirs, get the size of each sub_dir. If the size has
+        // not been calculated, move the cursor into the map and restart the
+        // count.
+        for sub_dir in sub_dirs.get(cursor).unwrap() {
+            if dir_size.contains_key(sub_dir) {
+                sum += dir_size.get(sub_dir).unwrap();
+            } else {
+                cursor.push(sub_dir.last().unwrap());
+                continue 'map_sub_dir;
+            }
+        }
+
+        // Compute files
+        for file in files.get(cursor).unwrap() {
+            sum += file.size;
+        }
+        dir_size.insert(cursor.clone(), sum);
+
+        // Now that we've mapped this dir, let's continue mapping the 
+        // parent.
+        cursor.pop();
     }
 
-    pub fn add_dir(&mut self, dir: String) {
-        self.dirs.push(dir)
+    let mut sum: usize = 0;
+    for d in dir_size {
+        if d.1 <= 100000 {
+            sum += d.1;
+        }
     }
+
+    println!("Part 1: {}", sum);
 }
 
 pub fn run() {
     let input = input_reader::read_file_in_cwd("src/day_07.data");
     
-    let root = Dir { parent: None, name: "/".to_string(), dirs: vec![], files: vec![] };
-    let mut dirs: HashMap<&str, Rc<RefCell<Dir>>> = HashMap::new();
-    let mut current_dir_name = "/";
-    dirs.insert(&current_dir_name,Rc::new(RefCell::new(root)));
-
+    let mut dirs: HashMap<Vec<&str>, Vec<Vec<&str>>> = HashMap::new();
+    let mut files: HashMap<Vec<&str>, Vec<File>> = HashMap::new();
+    let mut path: Vec<&str> = vec![];
 
     // Split the input "$". Each "$" represents an executed command.
     let command_and_outputs: Vec<&str> = input.split("$ ").collect();
@@ -57,7 +79,7 @@ pub fn run() {
         // The split token will be blank, because the input starts with "$ ",
         // so we skip it.
         if command_and_output == "" {
-            return 
+            continue;
         }
 
         // The first line between each command execution is the command. The
@@ -70,42 +92,38 @@ pub fn run() {
             "cd" => {
                 let new_dir_name = command_split[1];
 
-                // Skip "/", as that's the initial state we are in.
-                if new_dir_name == "/" {
-                    return;
-                }
-
                 if new_dir_name == ".." {
-                    let thing = dirs.get(current_dir_name).unwrap().borrow();
-                    current_dir_name = thing.parent.as_ref().unwrap().as_str();
-                    return;
+                    path.pop();
+                    continue;
                 }
 
-                current_dir_name = new_dir_name
+                path.push(new_dir_name);
             },
             "ls" => {
+                let mut dir_dirs = vec![];
+                let mut dir_files = vec![];
                 let items: Vec<&str> = output.split("\n").collect();
                 // Using a casual iterator, because I don't know yet how to
                 // handle mutables and closures at the same time...
                 for i in 0..items.len() {
                     let item_info: Vec<&str> = items[i].split(" ").collect();
                     if item_info[0] == "dir" {
-                        let sub_dir_name = item_info[0];
-                        // let sub_dir = &mut Dir { parent: Some(dir.to_string()), name: sub_dir_name.to_string(), dirs: vec![], files: vec![] };
-                        let current_dir = dirs.get_mut(current_dir_name).unwrap().borrow_mut();
-                        //current_dir.add_dir(sub_dir_name.to_string());
-                        let sub_dir = Box::new(&mut Dir { parent: None, name: "/".to_string(), dirs: vec![], files: vec![] });
-                        // let sub_dir = &mut Dir { parent: Some(current_dir_name.to_string()), name: sub_dir_name.to_string(), dirs: vec![], files: vec![] }
-                        //dirs.insert(sub_dir_name, sub_dir);
-                    } else {
-                        let file_size = item_info[0].parse::<i32>().unwrap();
+                        let sub_dir_name = item_info[1];
+                        let mut path_clone = path.clone();
+                        path_clone.push(sub_dir_name);
+                        dir_dirs.push(path_clone);
+                    } else if let Some(file_size) = item_info[0].parse::<usize>().ok() {
                         let file_name = item_info[1];
-                        let new_file = File { size: file_size, name: file_name.to_string() };
-                        //dirs.get_mut(current_dir_name).unwrap().add_file(new_file);
+                        let file = File { size: file_size, name: file_name.to_string() };
+                        dir_files.push(file);
                     }
                 }
+
+                dirs.insert(path.clone(), dir_dirs);
+                files.insert(path.clone(), dir_files);
             },
             _ => { /* Do nothing if command is not recognized */ }
         };
     }
+    part1(dirs, files, vec!["/"]);
 }
