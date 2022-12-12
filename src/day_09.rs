@@ -44,27 +44,23 @@ impl Eq for Position {}
 
 fn move_head(head: &Position, direction: &Direction) -> Position {
     match direction {
-        Direction::U => return Position { x: head.x + 1, y: head.y },
-        Direction::D => return Position { x: head.x - 1, y: head.y },
-        Direction::L => return Position { x: head.x, y: head.y - 1 },
-        Direction::R => return Position { x: head.x, y: head.y + 1 }
+        Direction::U => return Position { x: head.x, y: head.y + 1 },
+        Direction::D => return Position { x: head.x, y: head.y - 1 },
+        Direction::L => return Position { x: head.x - 1, y: head.y },
+        Direction::R => return Position { x: head.x + 1, y: head.y }
     }
 }
 
 fn follow_head(head: &Position, tail: &Position) -> Position {
-    if (head.x - tail.x).abs() >= 2 {
-        // Two steps left or right...
-        if head.x > tail.x {
-            return Position { x: head.x - 1, y: head.y }
+    let dx = head.x - tail.x;
+    let dy = head.y - tail.y;
+    if dx.abs() + dy.abs() >= 3 || dx.abs() >= 2 || dy.abs() >= 2 {
+        if dx.abs() == dy.abs() {
+            return Position { x: head.x - dx.signum(), y: head.y - dy.signum() }
+        } else if dx.abs() > dy.abs() {
+            return Position { x: head.x - dx.signum(), y: head.y }
         } else {
-            return Position { x: head.x + 1, y: head.y }
-        }
-    } else if (head.y - tail.y).abs() >= 2 {
-        // Two steps up or down...
-        if head.y > tail.y {
-            return Position { x: head.x, y: head.y - 1 }
-        } else {
-            return Position { x: head.x, y: head.y + 1 }
+            return Position { x: head.x, y: head.y - dy.signum() }
         }
     }
     return tail.clone()
@@ -105,13 +101,35 @@ fn part2(movements: &Vec<Movement>) {
                 knots[k] = follow_head(&knots[k-1], &knots[k]);
             }
 
-            println!("Part 2: {}", knots.last().unwrap().to_hashable());
             tail_visits.insert(knots.last().unwrap().to_hashable(), 0);
+            // print_map(&knots);
         }
     }
 
     println!("Part 2: {}", tail_visits.len());
 }
+
+// fn print_map(knots: &Vec<Position>) {
+//     let w: i32 = 30;
+//     let h: i32 = 30;
+//     let mut map = vec![vec![' '; w as usize]; h as usize];
+
+//     for i in 0..knots.len() {
+//         let x = (w/2 + knots[i].x) as usize;
+//         let y = (h/2 - knots[i].y) as usize;
+//         map[y][x] = std::char::from_digit(i as u32, 10).unwrap();
+//     }
+
+//     map[h as usize /2][w as usize /2] = 'x';
+
+//     for row in map {
+//         for col in row {
+//             print!("{}", col);
+//         }
+//         println!();
+//     }
+//     println!();
+// }
 
 pub fn run() {
     let input = input_reader::read_file_in_cwd("src/day_09.data");
