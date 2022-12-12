@@ -82,7 +82,7 @@ fn get_neighbors(map: &Vec<Vec<i32>>, pos: Pos) -> Vec<Pos> {
     }).filter_map(|e| e).collect()
 }
 
-fn part1(map: &Vec<Vec<i32>>, start: Pos, end: Pos) {
+fn compute_cost(map: &Vec<Vec<i32>>, start: Pos) -> HashMap<Pos, Cost> {
     // A simplified version of Dijkstra.
     let mut processed: HashMap<Pos, Cost> = HashMap::new();
     let mut to_process: VecDeque<Processable> = VecDeque::new();
@@ -103,7 +103,32 @@ fn part1(map: &Vec<Vec<i32>>, start: Pos, end: Pos) {
             to_process.push_back(Processable::new(neighbor, new_cost));
         }
     }
+    return processed;
+}
+
+fn part1(map: &Vec<Vec<i32>>, start: Pos, end: Pos) {
+    let processed = compute_cost(&map, start);
     println!("Part 1: {}", processed.get(&end).unwrap());
+}
+
+fn part2(map: &Vec<Vec<i32>>, end: Pos) {
+    // Let's cheese this solution be observing that the only 'b' steps are
+    // on the left hand side of the map. Therefore one can only get up
+    // the hill from the left-most positions.
+    let mut lowest_cost: usize = std::usize::MAX;
+    for y in 0..map.len() {
+        let start = Pos { x: 0, y: y as i32 };
+        let processed = compute_cost(map, start);
+        // println!("best 1: {}", y);
+        let cost = *processed.get(&end).unwrap();
+        // println!("best 1: {}", cost);
+        if cost < lowest_cost {
+            // println!("best 2: {}", y);
+            lowest_cost = cost;
+        }
+    }
+    
+    println!("Part 2: {}", lowest_cost);
 }
 
 pub fn run() {
@@ -139,6 +164,7 @@ pub fn run() {
 
     let start = Pos { x: start_x, y: start_y };
     let end = Pos { x: end_x, y: end_y };
-
+    
     part1(&map, start, end);
+    part2(&map, end);
 }
