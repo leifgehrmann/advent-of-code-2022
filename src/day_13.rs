@@ -21,9 +21,9 @@ fn split(str: &str) -> Vec<&str> {
         }
     }
     split_index_end.push(str.len());
-    println!("str {}", str);
-    println!("slice start {:?}", split_index_start);
-    println!("slice start {:?}", split_index_end);
+    // println!("str {}", str);
+    // println!("slice start {:?}", split_index_start);
+    // println!("slice start {:?}", split_index_end);
     let mut result: Vec<&str> = vec![];
     for s_i in 0..split_index_start.len() {
         if split_index_start[s_i] == split_index_end[s_i] {
@@ -35,7 +35,7 @@ fn split(str: &str) -> Vec<&str> {
 }
 
 fn is_right_order(a_str: &str, b_str: &str) -> Option<bool> {
-    println!("{} vs {}", a_str, b_str);
+    // println!("{} vs {}", a_str, b_str);
     // If both values are integers, the lower integer should come first.
     // If the left integer is lower than the right integer, the inputs are in the right order.
     // If the left integer is higher than the right integer, the inputs are not in the right order.
@@ -63,8 +63,8 @@ fn is_right_order(a_str: &str, b_str: &str) -> Option<bool> {
     let a_split = split(&a_str[1..a_str.len()-1]);
     let b_split = split(&b_str[1..b_str.len()-1]);
 
-    println!("a split = {:?}", a_split);
-    println!("b split = {:?}", b_split);
+    // println!("a split = {:?}", a_split);
+    // println!("b split = {:?}", b_split);
 
     for a_split_i in 0..a_split.len() {
         // If the right list runs out of items first, the inputs are not in the right order.
@@ -96,12 +96,12 @@ fn part1(packet_pairs: &Vec<(&str, &str)>) {
         let b_string = packet_pairs[i].1.replace("10", "A");
         let is_right_order = is_right_order(a_string.as_str(), b_string.as_str());
         if is_right_order.is_none() || is_right_order.unwrap() {
-            println!("Result is in right order");
+            // println!("Result is in right order");
             index_sum += i + 1;
         } else {
-            println!("Result is NOT in right order");
+            // println!("Result is NOT in right order");
         }
-        println!("\n\n");
+        // println!("\n\n");
     }
     println!("Part 1: {}", index_sum);
 }
@@ -119,14 +119,10 @@ fn part2(packets: &Vec<&str>) {
         return Ordering::Greater;
     });
 
-    // for packet in all_packets {
-    //     println!("{}", packet);
-    // }
-
     let mut two_index = 0;
     let mut six_index = 0;
     for i in 0..all_packets.len() {
-        println!("{}", all_packets[i]);
+        // println!("{}", all_packets[i]);
         if all_packets[i] == "[[2]]" {
             two_index = i + 1;
         }
@@ -135,7 +131,7 @@ fn part2(packets: &Vec<&str>) {
         }
     }
     
-    println!("Part 2: {}, {}", two_index, six_index);
+    // println!("Part 2: {}, {}", two_index, six_index);
     println!("Part 2: {}", two_index * six_index);
 }
 
