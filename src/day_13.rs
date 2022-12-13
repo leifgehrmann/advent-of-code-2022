@@ -1,4 +1,5 @@
 use crate::input_reader;
+use std::cmp::Ordering;
 
 fn char_at(str: &str, n: usize) -> char {
     return str.chars().nth(n).unwrap()
@@ -105,6 +106,39 @@ fn part1(packet_pairs: &Vec<(&str, &str)>) {
     println!("Part 1: {}", index_sum);
 }
 
+fn part2(packets: &Vec<&str>) {
+    let mut all_packets = packets.clone();
+    all_packets.push("[[2]]");
+    all_packets.push("[[6]]");
+    
+    all_packets.sort_by(|a, b| {
+        let is_right_order = is_right_order(a, b);
+        if is_right_order.is_none() || is_right_order.unwrap() {
+            return Ordering::Less;
+        }
+        return Ordering::Greater;
+    });
+
+    // for packet in all_packets {
+    //     println!("{}", packet);
+    // }
+
+    let mut two_index = 0;
+    let mut six_index = 0;
+    for i in 0..all_packets.len() {
+        println!("{}", all_packets[i]);
+        if all_packets[i] == "[[2]]" {
+            two_index = i + 1;
+        }
+        if all_packets[i] == "[[6]]" {
+            six_index = i + 1;
+        }
+    }
+    
+    println!("Part 2: {}, {}", two_index, six_index);
+    println!("Part 2: {}", two_index * six_index);
+}
+
 pub fn run() {
     let input = input_reader::read_file_in_cwd("src/day_13.data");
 
@@ -112,6 +146,13 @@ pub fn run() {
     let packet_pairs: Vec<(&str, &str)> = packet_pairs_str.iter().map(|&val| {
         return val.split_once("\n").unwrap()
     }).collect();
+    let all_packets_string = input
+        .replace("\n\n", "\n")
+        .replace("10", "A"); // Makes it easier to process tokens...
+    let all_packets: Vec<&str> = all_packets_string
+        .split("\n")
+        .collect();
     
     part1(&packet_pairs);
+    part2(&all_packets);
 }
