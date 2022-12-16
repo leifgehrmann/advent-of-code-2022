@@ -28,20 +28,12 @@ enum Cell {
     Sand
 }
 
-fn part1(walls: &Vec<Vec<Point>>, sand_origin: Point) {
-    let mut min_x = sand_origin.x;
-    let mut max_x = sand_origin.x;
+fn part1(walls: &Vec<Vec<Point>>, sand_origin: Point) -> (Vec<Vec<Cell>>, Bounds) {
     let mut min_y = sand_origin.y;
     let mut max_y = sand_origin.y;
 
     for wall in walls {
         for point in wall {
-            if point.x < min_x {
-                min_x = point.x
-            }
-            if point.x > max_x {
-                max_x = point.x
-            }
             if point.y < min_y {
                 min_y = point.y
             }
@@ -51,9 +43,9 @@ fn part1(walls: &Vec<Vec<Point>>, sand_origin: Point) {
         }
     }
     // Allow the sand to fall on the sides
-    min_x -= 2;
-    max_x += 2;
-    max_y += 1;
+    max_y += 2;
+    let min_x = sand_origin.x - max_y - 1;
+    let max_x = sand_origin.x + max_y + 1;
 
     // let bounds = Bounds { min_x, max_x, min_y, max_y };
     let bounds = Bounds { min_x, min_y };
@@ -107,7 +99,9 @@ fn part1(walls: &Vec<Vec<Point>>, sand_origin: Point) {
         }
     }
 
-    println!("Part 1: {}", drops)
+    println!("Part 1: {}", drops);
+
+    return (map.clone(), bounds);
 }
 
 // fn print_map(map: &Vec<Vec<Cell>>) {
@@ -126,7 +120,23 @@ fn part1(walls: &Vec<Vec<Point>>, sand_origin: Point) {
 //     println!();
 // }
 
-part2
+fn part2(map: &mut Vec<Vec<Cell>>, bounds: Bounds, sand_origin: Point) {
+    let arr_i = point_to_arr(&sand_origin, &bounds);
+    map[arr_i.0][arr_i.1] = Cell::Sand;
+    let mut count = 1; // 1 represents the initial sand particle at the top of the pile.
+    for y in 1..map.len() {
+        for x in 1..map[9].len()-1 {
+            // Populate the current row with sand particles assuming they are all coming from above.
+            if (map[y][x] == Cell::Air || map[y][x] == Cell::Sand) && (map[y-1][x-1] == Cell::Sand || map[y-1][x] == Cell::Sand || map[y-1][x+1] == Cell::Sand) {
+                map[y][x] = Cell::Sand;
+                count += 1;
+            }
+        }
+        // print_map(map);
+    }
+
+    println!("Part 2: {}", count);
+}
 
 pub fn run() {
     let input = input_reader::read_file_in_cwd("src/day_14.data");
@@ -144,5 +154,8 @@ pub fn run() {
         return wall;
     }).collect();
 
-    part1(&walls, Point { x: 500, y: 0})
+    let sand_origin = Point { x: 500, y: 0};
+
+    let (mut map, bounds) = part1(&walls, sand_origin);
+    part2(&mut map, bounds, sand_origin);
 }
