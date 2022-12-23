@@ -12,6 +12,7 @@ struct Scan {
     beacon: Point,
 }
 
+// Ranges are inclusive, meaning Range {x: 1, y: 5} = 1,2,3,4,5
 #[derive(Debug, Clone, Copy)]
 struct Range {
     start: i32,
@@ -34,7 +35,6 @@ struct Range {
 
 fn get_x_range(scan: &Scan, inspect_y: i32) -> Option<Range> {
     let distance = (scan.beacon.x - scan.sensor.x).abs() + (scan.beacon.y - scan.sensor.y).abs();
-    println!("- distance {}, {}, {}", distance, scan.sensor.y + distance, scan.sensor.y - distance);
     if inspect_y > scan.sensor.y + distance || inspect_y < scan.sensor.y - distance {
         return None
     }
@@ -60,18 +60,66 @@ fn get_x_range(scan: &Scan, inspect_y: i32) -> Option<Range> {
     })
 }
 
+fn get_next_range(ranges: &Vec<Range>, x: i32) -> Option<Range> {
+    let mut min_range: Option<Range> = None;
+    for range in ranges {
+        if range.end < x {
+            continue;
+        }
+        if min_range.is_some() && range.start > min_range.unwrap().start {
+            continue;
+        }
+        min_range = Some(range.clone());
+    }
+    return min_range
+}
+
 fn part1(scans: &Vec<Scan>, inspect_y: i32) {
-    let ranges = 
+    let mut ranges = vec![];
+    let mut min_range_opt = None;
+    let mut min_x = i32::MAX;
+    let mut max_x = i32::MIN;
     for scan in scans {
-        let range = get_x_range(scan, inspect_y);
-        if range.is_some() {
-            println!("{},{}: {}-{}", scan.sensor.x, scan.sensor.y, range.unwrap().start, range.unwrap().end);
+        let range_opt = get_x_range(scan, inspect_y);
+        if range_opt.is_some() {
+            let range = range_opt.unwrap();
+            // println!("{},{}: {}-{}", scan.sensor.x, scan.sensor.y, range.start, range.end);
+            ranges.push(range);
+            if range.start < min_x {
+                min_x = range.start;
+                min_range_opt = Some(range); 
+            }
+            if range.end > max_x {
+                max_x = range.end;
+            }
         } else {
-            println!("{},{}: No intercept", scan.sensor.x, scan.sensor.y);
+            // println!("{},{}: No intercept", scan.sensor.x, scan.sensor.y);
         }
     }
-    let mut min_x = 
-    if 
+
+    if min_range_opt.is_none() {
+        println!("Part 1: 0");
+    }
+    let min_range = min_range_opt.unwrap();
+    
+    let mut cursor = min_x;
+    let mut cursor_range = min_range;
+    let mut count = 0;
+    'iterate: while cursor < max_x {
+        // Sum up the current range.
+        count += cursor_range.end - cursor + 1;
+        cursor = cursor_range.end + 1;
+
+        // The find the next range.
+        let next_range = get_next_range(&ranges, cursor);
+        if next_range.is_some() {
+            cursor = i32::max(cursor, next_range.unwrap().start);
+            cursor_range = next_range.unwrap();
+            continue 'iterate;
+        }
+    }
+
+    println!("Part 1: {}", count);
 }
 
 pub fn run() {
@@ -97,5 +145,6 @@ pub fn run() {
         };
     }).collect();
 
-    part1(&scans, 10);
+    part1(&scans, 2000000);
+    // part1(&scans, 10);
 }
