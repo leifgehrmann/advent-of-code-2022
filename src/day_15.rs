@@ -38,7 +38,7 @@ struct Range {
 // ....x...x......
 // .....x.x.......
 // ......x........
-fn get_x_range(scan: &Scan, inspect_y: i32) -> Option<Range> {
+fn get_x_range(scan: &Scan, inspect_y: i32, without_beacons: bool) -> Option<Range> {
     let distance = (scan.beacon.x - scan.sensor.x).abs() + (scan.beacon.y - scan.sensor.y).abs();
     if inspect_y > scan.sensor.y + distance || inspect_y < scan.sensor.y - distance {
         return None
@@ -47,18 +47,20 @@ fn get_x_range(scan: &Scan, inspect_y: i32) -> Option<Range> {
     let delta = (scan.sensor.y - inspect_y).abs();
     let mut start = scan.sensor.x - distance + delta;
     let mut end = scan.sensor.x + distance - delta;
-    if inspect_y == scan.beacon.y {
-        if scan.beacon.x == scan.sensor.x {
-            
-        } else if scan.beacon.x <= scan.sensor.x {
-            start += 1;
-        } else {
-            end -= 1;
+    if without_beacons {
+        if inspect_y == scan.beacon.y {
+            if scan.beacon.x == scan.sensor.x {
+                
+            } else if scan.beacon.x <= scan.sensor.x {
+                start += 1;
+            } else {
+                end -= 1;
+            }
         }
     }
-    if start == end {
-        return None
-    }
+    // if start == end {
+    //     return None
+    // }
     return Some(Range {
         start,
         end,
@@ -85,7 +87,7 @@ fn part1(scans: &Vec<Scan>, inspect_y: i32) {
     let mut min_range_opt = None;
     let mut min_x = i32::MAX;
     for scan in scans {
-        let range_opt = get_x_range(scan, inspect_y);
+        let range_opt = get_x_range(scan, inspect_y, true);
         if range_opt.is_some() {
             let range = range_opt.unwrap();
             ranges.push(range);
@@ -124,6 +126,40 @@ fn part1(scans: &Vec<Scan>, inspect_y: i32) {
     println!("Part 1: {}", count);
 }
 
+fn part2(scans: &Vec<Scan>, inspect_max: i32) {
+    for y in 0..=inspect_max {
+        let ranges: Vec<Range> = scans.iter()
+        .map(|&scan| { get_x_range(&scan, y, false) })
+        .filter(|x| x.is_some())
+        .map(|range| { range.unwrap() })
+        .collect();
+
+        // println!("{:?}", ranges);
+
+        let mut cursor = 0;
+        let mut cursor_range: Option<Range> = None;
+        while cursor <= inspect_max {
+            let next_range = get_next_range(&ranges, cursor);
+            //println!("{:?}, {:?}", cursor_range, next_range);
+            if next_range.is_some() {
+                if cursor_range.is_none() || next_range.unwrap().start <= cursor_range.unwrap().end + 1 {
+                    cursor = next_range.unwrap().end + 1;
+                    cursor_range = next_range;
+                    continue
+                } else {
+                    break;
+                }
+            }
+        }
+        if cursor < inspect_max {
+            println!("Part 2: {}", (inspect_max as usize) * (cursor as usize) + (y as usize));
+            break;
+        } else {
+            // println!("Part 2: None{}\n\n\n", y);
+        }
+    }
+}
+
 pub fn run() {
     let mut input = input_reader::read_file_in_cwd("src/day_15.data");
     input = input
@@ -146,7 +182,8 @@ pub fn run() {
             }
         };
     }).collect();
-
     part1(&scans, 2000000);
+    part2(&scans, 4000000);
     // part1(&scans, 10);
+    // part2(&scans, 20);
 }
