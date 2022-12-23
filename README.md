@@ -22,6 +22,7 @@ This is primarily a learning experience, and the code may not be following best 
 | 12  | Hill Climbing Algorithm   | [src/day_12.rs](src/day_12.rs) | [src/day_12.data](src/day_12.data) | `0m0.053s` | [![Day-12](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-12.yml/badge.svg?branch=main)](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-12.yml?query=branch%3Amain)
 | 13  | Distress Signal           | [src/day_13.rs](src/day_13.rs) | [src/day_13.data](src/day_13.data) | `0m0.053s` | [![Day-13](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-13.yml/badge.svg?branch=main)](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-13.yml?query=branch%3Amain)
 | 14  | Regolith Reservoir        | [src/day_14.rs](src/day_14.rs) | [src/day_14.data](src/day_14.data) | `0m0.002s` | [![Day-14](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-14.yml/badge.svg?branch=main)](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-14.yml?query=branch%3Amain)
+| 15  | Beacon Exclusion Zone     | [src/day_15.rs](src/day_15.rs) | [src/day_15.data](src/day_15.data) | `0m0.645s` | [![Day-15](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-15.yml/badge.svg?branch=main)](https://github.com/leifgehrmann/advent-of-code-2022/actions/workflows/Day-15.yml?query=branch%3Amain)
 
 † _The measured execution time in GitHub Actions_
 
