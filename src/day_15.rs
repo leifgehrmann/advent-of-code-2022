@@ -19,20 +19,25 @@ struct Range {
     end: i32,
 }
 
-
+// Returns a range of x-cooridinates that have been scanned by the sensor.
+//
+// In the example below, the scanned line --RRRRRRRRR---- would be:
+// Range { start: 2, end: 10 }
+//
+//           1
+// 0    5    0
 // ...............
 // ......x........
 // .....x.x.......
 // ....B...x......
 // ...x.....x.....
-// --x-------x----
+// --RRRRRRRRR----
 // .x....X....x...
 // ..x.......x....
 // ...x.....x.....
 // ....x...x......
 // .....x.x.......
 // ......x........
-
 fn get_x_range(scan: &Scan, inspect_y: i32) -> Option<Range> {
     let distance = (scan.beacon.x - scan.sensor.x).abs() + (scan.beacon.y - scan.sensor.y).abs();
     if inspect_y > scan.sensor.y + distance || inspect_y < scan.sensor.y - distance {
@@ -60,6 +65,7 @@ fn get_x_range(scan: &Scan, inspect_y: i32) -> Option<Range> {
     })
 }
 
+// Returns the range that comes after the position x. 
 fn get_next_range(ranges: &Vec<Range>, x: i32) -> Option<Range> {
     let mut min_range: Option<Range> = None;
     for range in ranges {
@@ -78,22 +84,15 @@ fn part1(scans: &Vec<Scan>, inspect_y: i32) {
     let mut ranges = vec![];
     let mut min_range_opt = None;
     let mut min_x = i32::MAX;
-    let mut max_x = i32::MIN;
     for scan in scans {
         let range_opt = get_x_range(scan, inspect_y);
         if range_opt.is_some() {
             let range = range_opt.unwrap();
-            // println!("{},{}: {}-{}", scan.sensor.x, scan.sensor.y, range.start, range.end);
             ranges.push(range);
             if range.start < min_x {
                 min_x = range.start;
                 min_range_opt = Some(range); 
             }
-            if range.end > max_x {
-                max_x = range.end;
-            }
-        } else {
-            // println!("{},{}: No intercept", scan.sensor.x, scan.sensor.y);
         }
     }
 
@@ -101,13 +100,14 @@ fn part1(scans: &Vec<Scan>, inspect_y: i32) {
         println!("Part 1: 0");
     }
     let min_range = min_range_opt.unwrap();
-    
+
+    // Sweep through the ranges counting how many places that have been scanned.
     let mut cursor = min_x;
     let mut cursor_range = min_range;
     let mut count = 0;
-    'iterate: while cursor < max_x {
+    loop {
         // Sum up the current range.
-        count += cursor_range.end - cursor + 1;
+        count += cursor_range.end - cursor + 1; // +1 to account for the fact that the ranges are "inclusive".
         cursor = cursor_range.end + 1;
 
         // The find the next range.
@@ -115,8 +115,10 @@ fn part1(scans: &Vec<Scan>, inspect_y: i32) {
         if next_range.is_some() {
             cursor = i32::max(cursor, next_range.unwrap().start);
             cursor_range = next_range.unwrap();
-            continue 'iterate;
+            continue;
         }
+
+        break;
     }
 
     println!("Part 1: {}", count);
