@@ -2,6 +2,25 @@ use crate::input_reader;
 use std::collections::HashMap;
 use regex::Regex;
 
+pub fn part1(
+    valves_flow: HashMap<&str, usize>,
+    valves_tunnels: HashMap<&str, Vec<&str>>,
+    start: &str,
+    minutes: usize
+) {
+    // Reduce the problem by calculating the costs between each valve that
+    // has a non-zero flow value.
+
+    // Calculate the cost from the `start` valve to all other valves.
+
+    // We're gonna assume that we want to visit valves with the highest flow
+    // first, and visit the valves with less flow last. So we compute an array
+    // of valves sorted by flow.
+
+    // Create combinations of solutions. 
+    
+}
+
 pub fn run() {
     let input = input_reader::read_file_in_cwd("src/day_16.data");
 
@@ -19,5 +38,17 @@ pub fn run() {
 
         valves_flow.insert(valve, valve_flow);
         valves_tunnels.insert(valve, valve_tunnels.clone());
+
+        if valve_flow != 0 {
+            println!("  {}[{} flow={}]", valve, valve, valve_flow);
+        }
+        for valve_tunnel in valve_tunnels.clone() {
+            println!("  {} --> {}", valve, valve_tunnel);
+        }
     });
+
+    let start = "AA";
+    let minutes = 30;
+
+    part1(valves_flow, valves_tunnels, start, minutes)
 }
